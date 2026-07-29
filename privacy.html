@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — OT-Shield</title>
+<style>
+  :root {
+    --primary: #1B2A4A;
+    --accent: #0F9D77;
+    --bg: #F7F7F5;
+    --surface: #FFFFFF;
+    --text: #1C1C1A;
+    --text-secondary: #6B6B66;
+  }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  header {
+    background: var(--primary);
+    color: #fff;
+    padding: 28px 20px;
+  }
+  header h1 { margin: 0; font-size: 22px; }
+  header p { margin: 6px 0 0; color: #cfd6e4; font-size: 14px; }
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 28px 20px 60px;
+  }
+  .card {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 24px 28px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .notice {
+    background: #FFF4E5;
+    border-left: 4px solid #C97A1A;
+    padding: 14px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+  h2 { font-size: 17px; margin-top: 32px; color: var(--primary); }
+  h2:first-of-type { margin-top: 0; }
+  p, li { font-size: 15px; color: var(--text); }
+  .todo {
+    background: #FDECEA;
+    color: #B3412E;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 13px;
+  }
+  footer {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 13px;
+    padding: 20px;
+  }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+<header>
+  <h1>OT-Shield</h1>
+  <p>Privacy Policy</p>
+</header>
+<main>
+  <div class="notice">
+    <strong>Draft notice:</strong> This page is a pre-launch draft, prepared
+    ahead of app submission. It has not yet been reviewed by legal counsel
+    familiar with Singapore's PDPA, and two sections below are still marked
+    <span class="todo">pending</span>. Do not treat this as a finalized
+    policy until those are resolved.
+  </div>
+
+  <div class="card">
+    <p><strong>Last updated:</strong> <span class="todo">pending — fill in before publishing</span></p>
+
+    <p>This Privacy Policy explains how OT-Shield ("we," "us," "our")
+    collects, uses, stores, and shares information when you use the
+    OT-Shield mobile app and related services (the "Service"). We built
+    OT-Shield to help Singapore workers record, understand, and protect
+    their overtime pay, and we try to collect no more personal data than
+    the Service actually needs to do that.</p>
+
+    <p>This policy is written to be consistent with Singapore's Personal
+    Data Protection Act (PDPA).</p>
+
+    <h2>1. Who We Are</h2>
+    <p>OT-Shield is operated by <span class="todo">pending — legal entity name, once registered</span>,
+    based in <span class="todo">pending — registered address/jurisdiction</span>.</p>
+
+    <h2>2. Information We Collect</h2>
+    <p>We collect the following categories of information, all of which
+    you provide directly by using the Service:</p>
+    <ul>
+      <li><strong>Account information</strong>: your email address, used
+      to create and sign in to your account via our authentication
+      provider (Supabase Auth).</li>
+      <li><strong>Overtime records</strong>: the details you record about
+      your overtime — date, clock-in/clock-out times, calculated overtime
+      duration and pay, hourly rate, and any shortfall between what you
+      were paid and what our calculator estimates you should have been
+      paid. We also store the raw text of what you typed or said when
+      creating a record.</li>
+      <li><strong>Employment/pay profile information</strong>: basic pay,
+      hourly rate, shift type, normal working days, lunch break duration,
+      and your normal daily start/end time — used to calculate your true
+      overtime hours and pay more accurately.</li>
+      <li><strong>Chat message content</strong>: the messages you type
+      (or dictate, where voice input is supported) into the app. This
+      content is sent to our workflow provider (Dify) and, through it, to
+      OpenAI's API (currently GPT-4.1-mini) to understand your request
+      and generate a reply.</li>
+    </ul>
+    <p>We do <strong>not</strong> currently collect device identifiers,
+    precise location, or behavioral analytics/usage-tracking data.</p>
+
+    <h2>3. How We Use Your Information</h2>
+    <ul>
+      <li>Create and secure your account, and let you sign back in.</li>
+      <li>Record, calculate, and let you query, correct, or delete your
+      overtime entries.</li>
+      <li>Estimate your true overtime pay and flag possible shortfalls.</li>
+      <li>Understand your messages and generate a relevant, correctly
+      localized reply.</li>
+      <li>Diagnose and fix problems with the Service.</li>
+    </ul>
+    <p>We do <strong>not</strong> use your data to show you ads, and we
+    do <strong>not</strong> sell your personal data to third parties.</p>
+
+    <h2>4. Where and How We Store Your Information</h2>
+    <p>Your data is stored in a Supabase-hosted PostgreSQL database,
+    hosted in the <strong>Southeast Asia (Singapore)</strong> region
+    (<code>ap-southeast-1</code>). Because this database is hosted within
+    Singapore, your overtime and profile data does not leave Singapore as
+    part of this storage arrangement.</p>
+    <p>Security measures currently in place: Row Level Security (RLS)
+    policies restricting which rows a user can read or write; login
+    sessions stored on-device via iOS Keychain (encrypted at rest); all
+    network requests use HTTPS.</p>
+
+    <h2>5. Third Parties We Share Data With</h2>
+    <ul>
+      <li><strong>Supabase</strong> — database hosting and user
+      authentication.</li>
+      <li><strong>Dify</strong>, and through it, <strong>OpenAI</strong>
+      (currently GPT-4.1-mini, accessed via OpenAI's official API — not
+      Azure OpenAI, not a Dify-hosted proxy) — processes the text of your
+      messages to understand your request and generate a reply.
+      <span class="todo">pending — confirmation of OpenAI's data retention/training terms for this account</span></li>
+    </ul>
+    <p>We may also disclose information if required to by law, or to
+    protect the rights, property, or safety of OT-Shield, our users, or
+    others.</p>
+
+    <h2>6. Your Rights</h2>
+    <p>Consistent with PDPA, you have the right to access, correct,
+    withdraw consent to, and request deletion of your personal data.
+    Self-serve account deletion is not yet built into the app; until it
+    is, contact us at
+    <a href="mailto:jeffreytong95@gmail.com">jeffreytong95@gmail.com</a>
+    and we will act on your request within 30 days.</p>
+
+    <h2>7. Data Retention</h2>
+    <p>We retain your data for as long as your account is active. After
+    you request deletion, we will delete your personal data within
+    30 days, except where retaining certain records longer is required
+    to comply with a legal obligation.</p>
+
+    <h2>8. Children's Privacy</h2>
+    <p>OT-Shield is intended for working adults. It is not directed at,
+    and we do not knowingly collect data from, children under 18.</p>
+
+    <h2>9. International Data Transfers</h2>
+    <p>Your Supabase database is hosted in Singapore, so no international
+    transfer occurs for data stored there. Your chat message content is
+    sent to OpenAI (via its official API) to generate a reply, which does
+    involve processing outside Singapore.
+    <span class="todo">pending — applicable PDPA transfer safeguard</span></p>
+
+    <h2>10. Changes to This Policy</h2>
+    <p>We may update this policy as the Service changes. We'll update the
+    "Last updated" date above, and make a reasonable effort to notify you
+    in the app before material changes take effect.</p>
+
+    <h2>11. Contact Us</h2>
+    <p>
+      <a href="mailto:jeffreytong95@gmail.com">jeffreytong95@gmail.com</a><br>
+      <span class="todo">pending — legal entity name and address, once registered</span>
+    </p>
+  </div>
+</main>
+<footer>
+  &copy; OT-Shield. Draft — see docs/privacy-policy-draft.md in the project repo for the maintained source.
+</footer>
+</body>
+</html>
