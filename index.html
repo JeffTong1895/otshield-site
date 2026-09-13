@@ -60,6 +60,10 @@
     font-size: 13px;
     padding: 0 20px 40px;
   }
+  .card.status-success { border: 2px solid var(--accent); }
+  .card.status-success h2 { color: var(--accent); }
+  .card.status-error { border: 2px solid #B3261E; }
+  .card.status-error h2 { color: #B3261E; }
 </style>
 </head>
 <body>
@@ -68,6 +72,7 @@
   <p>Protect every minute of overtime.</p>
 </header>
 <main>
+  <div id="auth-status"></div>
   <div class="card">
     <h2>Need help?</h2>
     <p>If you have a question, ran into a problem, or want to exercise
@@ -92,5 +97,56 @@
 <footer>
   &copy; OT-Shield.
 </footer>
+<script>
+(function () {
+  // Supabase's email links (confirm signup, reset password, magic link, etc.)
+  // land here because this page is the project's Auth "Site URL". GoTrue
+  // appends the result as either query params (?error=...) or a hash
+  // fragment (#access_token=...&type=signup) — never both reliably in the
+  // same place across flow types, so both are checked.
+  function readParams(raw) {
+    return new URLSearchParams(raw && raw[0] === '#' || raw && raw[0] === '?' ? raw.slice(1) : raw);
+  }
+  var query = readParams(window.location.search);
+  var hash = readParams(window.location.hash);
+  var get = function (key) { return query.get(key) || hash.get(key); };
+
+  var error = get('error') || get('error_code');
+  var errorDescription = get('error_description');
+  var type = get('type');
+  var hasToken = !!(get('access_token') || get('token_hash') || get('code'));
+
+  var el = document.getElementById('auth-status');
+  var typeLabel = {
+    signup: 'Your email address has been confirmed',
+    recovery: 'You can now set a new password in the app',
+    email_change: 'Your new email address has been confirmed',
+    magiclink: "You're signed in",
+    invite: 'Your invitation has been accepted'
+  };
+
+  if (error) {
+    el.innerHTML =
+      '<div class="card status-error">' +
+      '<h2>This link didn’t work</h2>' +
+      '<p>' + (errorDescription ? errorDescription.replace(/\+/g, ' ') :
+        'This confirmation link may have expired or already been used.') + '</p>' +
+      '<p>Go back to the OT-Shield app and request a new link, or ' +
+      '<a href="mailto:ot.shield2026@gmail.com">email us</a> if it keeps happening.</p>' +
+      '</div>';
+  } else if (hasToken || type) {
+    el.innerHTML =
+      '<div class="card status-success">' +
+      '<h2>✅ ' + (typeLabel[type] || "You're all set") + '</h2>' +
+      '<p>You can close this page and go back to the OT-Shield app.</p>' +
+      '</div>';
+  }
+
+  // Don't leave access/refresh tokens sitting in the visible URL/history.
+  if (hasToken && window.history && window.history.replaceState) {
+    window.history.replaceState(null, '', window.location.pathname);
+  }
+})();
+</script>
 </body>
 </html>
