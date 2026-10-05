@@ -135,6 +135,49 @@
       '<p>Go back to the OT-Shield app and request a new link, or ' +
       '<a href="mailto:ot.shield2026@gmail.com">email us</a> if it keeps happening.</p>' +
       '</div>';
+  } else if (type === 'recovery' && get('access_token')) {
+    // 2026-10-05: "Forgot password?" in the app sends a Supabase recovery
+    // email whose link lands here. Set the new password right on this page
+    // with the short-lived token from the link (PUT /auth/v1/user).
+    var token = get('access_token');
+    el.innerHTML =
+      '<div class="card">' +
+      '<h2>Set a new password</h2>' +
+      '<form id="reset-form">' +
+      '<p><input id="pw1" type="password" placeholder="New password (6+ characters)" autocomplete="new-password" required minlength="6" style="width:100%;padding:12px;font-size:16px;border-radius:10px;border:1px solid #ccc;box-sizing:border-box"></p>' +
+      '<p><input id="pw2" type="password" placeholder="Type it again" autocomplete="new-password" required minlength="6" style="width:100%;padding:12px;font-size:16px;border-radius:10px;border:1px solid #ccc;box-sizing:border-box"></p>' +
+      '<p><button type="submit" style="width:100%;padding:12px;font-size:16px;border:0;border-radius:10px;background:var(--accent);color:#fff">Save new password</button></p>' +
+      '<p id="reset-msg"></p>' +
+      '</form></div>';
+    document.getElementById('reset-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var msg = document.getElementById('reset-msg');
+      var a = document.getElementById('pw1').value, b = document.getElementById('pw2').value;
+      if (a.length < 6) { msg.textContent = 'Use at least 6 characters.'; return; }
+      if (a !== b) { msg.textContent = "The two passwords don't match."; return; }
+      msg.textContent = 'Saving…';
+      fetch('https://pnmupchblwlhokwxgzdc.supabase.co/auth/v1/user', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          // Publishable key: public by design, the same one shipped in the apps.
+          'apikey': 'sb_publishable_Qmvtde08p8mwFxumjfpsHQ_yUM6nYtz',
+          'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify({ password: a })
+      }).then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, status: r.status, j: j }; });
+      }).then(function (res) {
+        if (res.ok) {
+          el.innerHTML = '<div class="card status-success"><h2>✅ Password changed</h2>' +
+            '<p>Go back to the OT-Shield app and sign in with your new password.</p></div>';
+        } else if (res.status === 401 || res.status === 403) {
+          msg.textContent = 'This link has expired. Go back to the app and tap “Forgot password?” again.';
+        } else {
+          msg.textContent = (res.j && (res.j.msg || res.j.error_description || res.j.message)) || "Couldn't change the password. Please try again.";
+        }
+      }).catch(function () { msg.textContent = 'No connection. Please try again.'; });
+    });
   } else if (hasToken || type) {
     el.innerHTML =
       '<div class="card status-success">' +
