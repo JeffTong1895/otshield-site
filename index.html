@@ -3,7 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OT-Shield — Support</title>
+<title>OT-Shield</title>
+<meta name="description" content="Record your overtime by voice or text, in your own language, and see what you're owed.">
+<meta property="og:title" content="OT-Shield">
+<meta property="og:description" content="Record your overtime by voice or text, in your own language, and see what you're owed.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jefftong1895.github.io/otshield-site/">
 <style>
   :root {
     --primary: #1B2A4A;
@@ -60,6 +65,15 @@
     font-size: 13px;
     padding: 0 20px 40px;
   }
+  .stores { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+  .store {
+    display: inline-flex; flex-direction: column;
+    border: 1px solid #D8D8D3; border-radius: 10px;
+    padding: 8px 14px; min-width: 130px;
+    color: var(--text); text-decoration: none;
+  }
+  .store small { color: var(--text-secondary); font-size: 12px; }
+  .store strong { font-size: 15px; }
   .card.status-success { border: 2px solid var(--accent); }
   .card.status-success h2 { color: var(--accent); }
   .card.status-error { border: 2px solid #B3261E; }
@@ -73,6 +87,18 @@
 </header>
 <main>
   <div id="auth-status"></div>
+  <div class="card">
+    <h2>Get the app</h2>
+    <p>OT-Shield is on its way to iPhone and Android.</p>
+    <!-- 2026-10-05: no store listing yet. When it's live, turn each span into
+         an <a href> to the store page (and fill AppConfig.appStoreURL in the
+         apps so Share sends the store link). -->
+    <div class="stores">
+      <span class="store"><small>Coming soon on the</small><strong>App Store</strong></span>
+      <span class="store"><small>Coming soon on</small><strong>Google Play</strong></span>
+    </div>
+  </div>
+
   <div class="card">
     <h2>Need help?</h2>
     <p>If you have a question, ran into a problem, or want to exercise
