@@ -153,14 +153,20 @@
   };
 
   if (error) {
+    // 2026-11-15: the description comes from the URL, so anyone can put
+    // anything in it. It goes in as text, never as HTML — before this fix a
+    // crafted link could run its own script on this page (the page that
+    // asks people for a new password).
     el.innerHTML =
       '<div class="card status-error">' +
       '<h2>This link didn’t work</h2>' +
-      '<p>' + (errorDescription ? errorDescription.replace(/\+/g, ' ') :
-        'This confirmation link may have expired or already been used.') + '</p>' +
+      '<p id="auth-error-text"></p>' +
       '<p>Go back to the OT-Shield app and request a new link, or ' +
       '<a href="mailto:ot.shield2026@gmail.com">email us</a> if it keeps happening.</p>' +
       '</div>';
+    document.getElementById('auth-error-text').textContent = errorDescription
+      ? errorDescription.replace(/\+/g, ' ')
+      : 'This confirmation link may have expired or already been used.';
   } else if (type === 'recovery' && get('access_token')) {
     // 2026-10-05: "Forgot password?" in the app sends a Supabase recovery
     // email whose link lands here. Set the new password right on this page
