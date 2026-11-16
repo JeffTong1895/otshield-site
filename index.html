@@ -172,12 +172,18 @@
     // email whose link lands here. Set the new password right on this page
     // with the short-lived token from the link (PUT /auth/v1/user).
     var token = get('access_token');
+    // 2026-11-16: 8, up from 6. The same number lives in the two apps
+    // (AppConfig.minPasswordLength / MIN_PASSWORD_LENGTH) and in the Supabase
+    // Auth setting "Minimum password length" — the server's is the one that
+    // binds; this only saves a round trip. It is a number, not user input, so
+    // putting it into the markup below is safe.
+    var MIN_PASSWORD_LENGTH = 8;
     el.innerHTML =
       '<div class="card">' +
       '<h2>Set a new password</h2>' +
       '<form id="reset-form">' +
-      '<p><input id="pw1" type="password" placeholder="New password (6+ characters)" autocomplete="new-password" required minlength="6" style="width:100%;padding:12px;font-size:16px;border-radius:10px;border:1px solid #ccc;box-sizing:border-box"></p>' +
-      '<p><input id="pw2" type="password" placeholder="Type it again" autocomplete="new-password" required minlength="6" style="width:100%;padding:12px;font-size:16px;border-radius:10px;border:1px solid #ccc;box-sizing:border-box"></p>' +
+      '<p><input id="pw1" type="password" placeholder="New password (' + MIN_PASSWORD_LENGTH + '+ characters)" autocomplete="new-password" required minlength="' + MIN_PASSWORD_LENGTH + '" style="width:100%;padding:12px;font-size:16px;border-radius:10px;border:1px solid #ccc;box-sizing:border-box"></p>' +
+      '<p><input id="pw2" type="password" placeholder="Type it again" autocomplete="new-password" required minlength="' + MIN_PASSWORD_LENGTH + '" style="width:100%;padding:12px;font-size:16px;border-radius:10px;border:1px solid #ccc;box-sizing:border-box"></p>' +
       '<p><button type="submit" style="width:100%;padding:12px;font-size:16px;border:0;border-radius:10px;background:var(--accent);color:#fff">Save new password</button></p>' +
       '<p id="reset-msg"></p>' +
       '</form></div>';
@@ -185,7 +191,7 @@
       e.preventDefault();
       var msg = document.getElementById('reset-msg');
       var a = document.getElementById('pw1').value, b = document.getElementById('pw2').value;
-      if (a.length < 6) { msg.textContent = 'Use at least 6 characters.'; return; }
+      if (a.length < MIN_PASSWORD_LENGTH) { msg.textContent = 'Use at least ' + MIN_PASSWORD_LENGTH + ' characters.'; return; }
       if (a !== b) { msg.textContent = "The two passwords don't match."; return; }
       msg.textContent = 'Saving…';
       fetch('https://pnmupchblwlhokwxgzdc.supabase.co/auth/v1/user', {
